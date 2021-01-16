@@ -7,9 +7,13 @@ import org.mongodb.morphia.Datastore;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
+/**
+ * Create by max on 2020/01/16
+ */
 @Setter
 @Getter
 class DatastoreHandler implements InvocationHandler {
+
     private final MongoDataStoreFactoryBean factory;
     private final String dbName;
     private Datastore delegate;

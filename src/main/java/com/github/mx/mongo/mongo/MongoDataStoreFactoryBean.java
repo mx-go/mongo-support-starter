@@ -34,12 +34,16 @@ import java.util.regex.Pattern;
 
 /**
  * FactoryBean生成代理对象
+ * <p>
+ * Create by max on 2020/01/16
  */
+@SuppressWarnings("UnstableApiUsage")
 @Slf4j
 public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBean, FactoryBean<DatastoreExt> {
+
     private static final Pattern MONGO_URI = Pattern.compile("mongodb://((.+):(.*)@)");
     /**
-     * nacos中的groupId
+     * nacos中的groupId(不填默认取spring.application.name)
      */
     @Setter
     private String groupId;
@@ -48,6 +52,7 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
      */
     @Setter
     private String dataId;
+
     private IConfig config;
     private Map<String, DatastoreExt> stores = Maps.newConcurrentMap();
     private DatastoreExt first;
@@ -167,9 +172,11 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
             Matcher m = MONGO_URI.matcher(servers);
             if (m.find()) {
                 try {
-                    // 解密的具体逻辑
-                    // String pwd = decode
-                    // uri = servers.substring(0, m.end(2) + 1) + pwd + servers.substring(m.end(1) - 1);
+                    /**
+                     * 解密的具体逻辑
+                     * String pwd = decode();
+                     * uri = servers.substring(0, m.end(2) + 1) + pwd + servers.substring(m.end(1) - 1);
+                     */
                 } catch (Exception e) {
                     log.error("cannot decode " + m.group(3), e);
                 }
@@ -188,7 +195,6 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
                 .connectionsPerHost(config.getInt("mongo.maxConnectionsPerHost", 100))
                 .connectTimeout(config.getInt("mongo.connectTimeout", 5000))
                 .socketTimeout(config.getInt("mongo.socketTimeout", 60000));
-
         try {
             // 低版本的driver没有这个方法，可以忽略
             builder.applicationName(ConfigFactory.getApplicationName());

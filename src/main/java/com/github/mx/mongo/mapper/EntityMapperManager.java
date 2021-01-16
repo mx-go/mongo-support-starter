@@ -1,6 +1,5 @@
 package com.github.mx.mongo.mapper;
 
-
 import org.mongodb.morphia.annotations.Id;
 
 import java.lang.reflect.Field;
@@ -11,6 +10,9 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * Create by max on 2020/01/16
+ */
 public class EntityMapperManager {
     public static final EntityMapperManager INSTANCE = new EntityMapperManager();
 

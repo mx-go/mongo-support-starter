@@ -12,11 +12,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+/**
+ * Create by max on 2020/01/16
+ */
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class FieldInfo {
+
     private String fieldName;
     private String columnName;
     private Method getterMethod;

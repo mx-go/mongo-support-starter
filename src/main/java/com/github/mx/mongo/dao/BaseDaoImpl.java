@@ -20,8 +20,8 @@ import java.util.stream.Collectors;
 
 /**
  * 基础方法实现类
- *
- * @param <T>
+ * <p>
+ * Create by max on 2020/01/16
  */
 @Getter
 @Setter
@@ -41,18 +41,35 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public String save(T entity) {
+    public String insert(T entity) {
         return datastore.save(entity).getId().toString();
     }
 
     @Override
-    public List<T> queryList(T condition) {
+    public void insertBatch(List<T> entities) {
+        datastore.insert(entities);
+    }
+
+    @Override
+    public List<T> selectList(T condition) {
         final Query<T> query = createQuery(condition);
         return query.asList();
     }
 
     @Override
-    public List<T> queryList(T condition, int offset, int limit) {
+    public T selectOne(T condition) {
+        List<T> list = this.selectList(condition);
+        if (list.size() == 1) {
+            return list.get(0);
+        } else if (list.size() > 1) {
+            throw new RuntimeException("Expected one result (or null) to be returned by queryOne(), but found: " + list.size());
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public List<T> selectList(T condition, int offset, int limit) {
         final Query<T> query = createQuery(condition);
         FindOptions findOptions = new FindOptions();
         findOptions.skip(offset);
@@ -61,14 +78,14 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public T queryById(String id) {
+    public T selectById(String id) {
         final Query<T> query = createQuery();
         query.field("_id").equal(new ObjectId(id));
         return query.get();
     }
 
     @Override
-    public List<T> queryByIds(List<String> ids) {
+    public List<T> selectByIds(List<String> ids) {
         final Query<T> query = createQuery();
         List<ObjectId> objectIds = ids.stream().map(ObjectId::new).collect(Collectors.toList());
         query.field("_id").in(objectIds);
@@ -76,9 +93,29 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     }
 
     @Override
-    public long queryCount(T condition) {
+    public long selectCount(T condition) {
         final Query<T> query = createQuery(condition);
         return datastore.getCount(query);
+    }
+
+    @Override
+    public long delete(T condition) {
+        return datastore.delete(condition).getN();
+    }
+
+    @Override
+    public long delete(Query<T> query) {
+        return datastore.delete(query).getN();
+    }
+
+    @Override
+    public long update(T entity, UpdateOperations<T> operations) {
+        return datastore.update(entity, operations).getUpdatedCount();
+    }
+
+    @Override
+    public long update(Query<T> query, UpdateOperations<T> update) {
+        return datastore.update(query, update).getUpdatedCount();
     }
 
     @Override
@@ -99,13 +136,12 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
             if (id != null) {
                 query.field("_id").equal(new ObjectId(id));
             }
-
             for (final FieldInfo fieldInfo : entityMapper.getFieldInfos()) {
                 if (!fieldInfo.getFieldName().equals(entityMapper.getIdField().getFieldName())) {
                     final Object fieldValue = fieldInfo.getGetterMethod().invoke(condition);
                     if (fieldValue instanceof String) {
                         if (!Strings.isNullOrEmpty((String) fieldValue)) {
-                            query.field(fieldInfo.getFieldName()).equal((String) fieldValue);
+                            query.field(fieldInfo.getFieldName()).equal(fieldValue);
                         }
                     } else {
                         if (null != fieldValue) {
@@ -117,13 +153,6 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        return query;
-    }
-
-    public Query<T> createQuery(T condition, int offset, int limit) {
-        Query<T> query = createQuery(condition);
-        query.offset(offset);
-        query.limit(limit);
         return query;
     }
 
