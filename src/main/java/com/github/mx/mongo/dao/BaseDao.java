@@ -8,6 +8,7 @@ import java.util.List;
 
 /**
  * 基础方法
+ * <p>
  * Create by max on 2020/01/16
  */
 public interface BaseDao<T> {

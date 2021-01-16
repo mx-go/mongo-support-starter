@@ -11,6 +11,7 @@ import com.mongodb.DBObject;
 import lombok.Getter;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.mongodb.morphia.mapping.Mapper;
 import org.mongodb.morphia.query.FindOptions;
 import org.mongodb.morphia.query.Query;
 import org.mongodb.morphia.query.UpdateOperations;
@@ -80,7 +81,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     @Override
     public T selectById(String id) {
         final Query<T> query = createQuery();
-        query.field("_id").equal(new ObjectId(id));
+        query.field(Mapper.ID_KEY).equal(new ObjectId(id));
         return query.get();
     }
 
@@ -88,7 +89,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
     public List<T> selectByIds(List<String> ids) {
         final Query<T> query = createQuery();
         List<ObjectId> objectIds = ids.stream().map(ObjectId::new).collect(Collectors.toList());
-        query.field("_id").in(objectIds);
+        query.field(Mapper.ID_KEY).in(objectIds);
         return query.asList();
     }
 
@@ -134,7 +135,7 @@ public abstract class BaseDaoImpl<T> implements BaseDao<T> {
         try {
             final String id = (String) entityMapper.getIdField().getGetterMethod().invoke(condition);
             if (id != null) {
-                query.field("_id").equal(new ObjectId(id));
+                query.field(Mapper.ID_KEY).equal(new ObjectId(id));
             }
             for (final FieldInfo fieldInfo : entityMapper.getFieldInfos()) {
                 if (!fieldInfo.getFieldName().equals(entityMapper.getIdField().getFieldName())) {

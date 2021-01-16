@@ -25,14 +25,12 @@ public final class NameUtil {
     public static String capitalize(final String word) {
         final char firstChar = word.charAt(0);
         final char capital = Character.toUpperCase(firstChar);
-
         return capital + word.substring(1);
     }
 
     private static String lowerCap(final String word) {
         final char firstChar = word.charAt(0);
         final char lowerCap = Character.toLowerCase(firstChar);
-
         return lowerCap + word.substring(1);
     }
 }
