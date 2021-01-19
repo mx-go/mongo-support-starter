@@ -18,7 +18,7 @@
     <packaging>jar</packaging>
 
     <properties>
-        <nacos-core.version>1.0.1</nacos-core.version>
+        <nacos-core.version>1.0.2</nacos-core.version>
         <slfj-api.version>1.7.30</slfj-api.version>
         <morphia.version>1.3.2</morphia.version>
         <lombok.version>1.18.16</lombok.version>
@@ -31,8 +31,8 @@
             <version>${nacos-core.version}</version>
             <exclusions>
                 <exclusion>
-                    <artifactId>nacos-client</artifactId>
-                    <groupId>com.alibaba.nacos</groupId>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
