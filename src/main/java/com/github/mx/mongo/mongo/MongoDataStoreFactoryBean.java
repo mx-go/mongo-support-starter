@@ -3,12 +3,10 @@ package com.github.mx.mongo.mongo;
 import com.github.mx.nacos.config.core.ConfigFactory;
 import com.github.mx.nacos.config.core.RemoteConfig;
 import com.github.mx.nacos.config.core.api.IConfig;
-import com.google.common.base.Charsets;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.common.net.UrlEscapers;
 import com.google.common.reflect.Reflection;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.mongodb.*;
@@ -22,7 +20,6 @@ import org.mongodb.morphia.mapping.MapperOptions;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.cloud.client.circuitbreaker.CircuitBreaker;
 
 import java.lang.reflect.Proxy;
 import java.util.Iterator;
@@ -60,8 +57,10 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
     @Override
     public void afterPropertiesSet() throws Exception {
         groupId = StringUtils.defaultString(groupId, ConfigFactory.getApplicationName());
-        ConfigFactory.getInstance().registerListener(dataId, groupId, config -> this.config = RemoteConfig.convert(config));
-        loadConfig(config);
+        ConfigFactory.getInstance().registerListener(dataId, groupId, c -> {
+            this.config = RemoteConfig.convert(c);
+            loadConfig(config);
+        });
     }
 
     @Override
