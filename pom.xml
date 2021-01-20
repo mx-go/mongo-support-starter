@@ -12,7 +12,7 @@
 
     <groupId>com.github.mx-go</groupId>
     <artifactId>mongo-support-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.0</version>
 
     <name>mongo-support-starter</name>
     <packaging>jar</packaging>
