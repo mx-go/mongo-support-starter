@@ -1,7 +1,5 @@
 package com.github.mx.mongo.mongo;
 
-import lombok.Getter;
-import lombok.Setter;
 import org.mongodb.morphia.Datastore;
 
 import java.lang.reflect.InvocationHandler;
@@ -10,8 +8,6 @@ import java.lang.reflect.Method;
 /**
  * Create by max on 2020/01/16
  */
-@Setter
-@Getter
 class DatastoreHandler implements InvocationHandler {
 
     private final MongoDataStoreFactoryBean factory;
@@ -39,5 +35,21 @@ class DatastoreHandler implements InvocationHandler {
             default:
                 return method.invoke(delegate, args);
         }
+    }
+
+    public MongoDataStoreFactoryBean getFactory() {
+        return factory;
+    }
+
+    public String getDbName() {
+        return dbName;
+    }
+
+    public Datastore getDelegate() {
+        return delegate;
+    }
+
+    public void setDelegate(Datastore delegate) {
+        this.delegate = delegate;
     }
 }

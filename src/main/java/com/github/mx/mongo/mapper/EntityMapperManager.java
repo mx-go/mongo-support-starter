@@ -14,6 +14,7 @@ import java.util.stream.Stream;
  * Create by max on 2020/01/16
  */
 public class EntityMapperManager {
+
     public static final EntityMapperManager INSTANCE = new EntityMapperManager();
 
     private final Map<Class<?>, EntityMapper<?>> cache = new HashMap<>();

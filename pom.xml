@@ -21,7 +21,6 @@
         <nacos-core.version>1.0.2</nacos-core.version>
         <slfj-api.version>1.7.30</slfj-api.version>
         <morphia.version>1.3.2</morphia.version>
-        <lombok.version>1.18.16</lombok.version>
     </properties>
 
     <dependencies>
@@ -40,12 +39,6 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slfj-api.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok.version}</version>
         </dependency>
 
         <dependency>

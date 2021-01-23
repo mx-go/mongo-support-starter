@@ -8,8 +8,6 @@ import com.google.common.base.Strings;
 import com.mongodb.AggregationOptions;
 import com.mongodb.Cursor;
 import com.mongodb.DBObject;
-import lombok.Getter;
-import lombok.Setter;
 import org.bson.types.ObjectId;
 import org.mongodb.morphia.mapping.Mapper;
 import org.mongodb.morphia.query.FindOptions;
@@ -24,8 +22,6 @@ import java.util.stream.Collectors;
  * <p>
  * Create by max on 2020/01/16
  */
-@Getter
-@Setter
 public abstract class BaseDaoImpl<T> implements BaseDao<T> {
 
     private DatastoreExt datastore;

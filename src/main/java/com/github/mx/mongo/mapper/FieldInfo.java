@@ -1,10 +1,6 @@
 package com.github.mx.mongo.mapper;
 
 import com.github.mx.mongo.utils.NameUtil;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -15,16 +11,13 @@ import java.util.stream.Stream;
 /**
  * Create by max on 2020/01/16
  */
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
 public class FieldInfo {
 
     private String fieldName;
     private String columnName;
     private Method getterMethod;
     private Method setterMethod;
+
 
     public static List<FieldInfo> parseField(Class<?> clazz) {
         final Field[] fields = clazz.getDeclaredFields();
@@ -41,5 +34,47 @@ public class FieldInfo {
             }
         });
         return fieldInfos;
+    }
+
+    public String getFieldName() {
+        return fieldName;
+    }
+
+    public void setFieldName(String fieldName) {
+        this.fieldName = fieldName;
+    }
+
+    public String getColumnName() {
+        return columnName;
+    }
+
+    public void setColumnName(String columnName) {
+        this.columnName = columnName;
+    }
+
+    public Method getGetterMethod() {
+        return getterMethod;
+    }
+
+    public void setGetterMethod(Method getterMethod) {
+        this.getterMethod = getterMethod;
+    }
+
+    public Method getSetterMethod() {
+        return setterMethod;
+    }
+
+    public void setSetterMethod(Method setterMethod) {
+        this.setterMethod = setterMethod;
+    }
+
+    public FieldInfo() {
+    }
+
+    public FieldInfo(String fieldName, String columnName, Method getterMethod, Method setterMethod) {
+        this.fieldName = fieldName;
+        this.columnName = columnName;
+        this.getterMethod = getterMethod;
+        this.setterMethod = setterMethod;
     }
 }

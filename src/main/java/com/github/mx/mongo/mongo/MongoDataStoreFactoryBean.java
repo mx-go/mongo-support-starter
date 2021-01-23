@@ -10,13 +10,13 @@ import com.google.common.collect.Maps;
 import com.google.common.reflect.Reflection;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.mongodb.*;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.mapping.Mapper;
 import org.mongodb.morphia.mapping.MapperOptions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
@@ -35,24 +35,32 @@ import java.util.regex.Pattern;
  * Create by max on 2020/01/16
  */
 @SuppressWarnings("UnstableApiUsage")
-@Slf4j
 public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBean, FactoryBean<DatastoreExt> {
+
+    private static final Logger log = LoggerFactory.getLogger(MongoDataStoreFactoryBean.class);
 
     private static final Pattern MONGO_URI = Pattern.compile("mongodb://((.+):(.*)@)");
     /**
      * nacos中的groupId(不填默认取spring.application.name)
      */
-    @Setter
     private String groupId;
     /**
      * nacos中的dataId
      */
-    @Setter
     private String dataId;
 
     private IConfig config;
     private Map<String, DatastoreExt> stores = Maps.newConcurrentMap();
     private DatastoreExt first;
+
+    public MongoDataStoreFactoryBean(String dataId) {
+        this.dataId = dataId;
+    }
+
+    public MongoDataStoreFactoryBean(String groupId, String dataId) {
+        this.groupId = groupId;
+        this.dataId = dataId;
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
