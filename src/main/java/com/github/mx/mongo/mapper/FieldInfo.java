@@ -1,6 +1,6 @@
 package com.github.mx.mongo.mapper;
 
-import com.github.mx.mongo.utils.NameUtil;
+import com.github.mx.mongo.util.NameUtils;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -24,8 +24,8 @@ public class FieldInfo {
         List<FieldInfo> fieldInfos = new ArrayList<>();
         Stream.of(fields).forEach(field -> {
             try {
-                final Method getterMethod = clazz.getMethod("get" + NameUtil.capitalize(field.getName()));
-                final Method setterMethod = clazz.getMethod("set" + NameUtil.capitalize(field.getName()), field.getType());
+                final Method getterMethod = clazz.getMethod("get" + NameUtils.capitalize(field.getName()));
+                final Method setterMethod = clazz.getMethod("set" + NameUtils.capitalize(field.getName()), field.getType());
                 if (getterMethod.getReturnType().equals(field.getType())) {
                     fieldInfos.add(new FieldInfo(field.getName(), field.getName(), getterMethod, setterMethod));
                 }

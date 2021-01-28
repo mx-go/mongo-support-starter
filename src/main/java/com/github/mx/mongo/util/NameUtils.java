@@ -1,4 +1,4 @@
-package com.github.mx.mongo.utils;
+package com.github.mx.mongo.util;
 
 import java.util.List;
 
@@ -7,7 +7,7 @@ import java.util.List;
  * <p>
  * Create by max on 2020/01/16
  */
-public final class NameUtil {
+public final class NameUtils {
 
     public static String camelCase(List<String> words) {
         if (words.isEmpty()) {
