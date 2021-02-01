@@ -12,13 +12,13 @@
 
     <groupId>com.github.mx-go</groupId>
     <artifactId>mongo-support-starter</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 
     <name>mongo-support-starter</name>
     <packaging>jar</packaging>
 
     <properties>
-        <nacos-core.version>1.0.2</nacos-core.version>
+        <nacos-core.version>1.0.3</nacos-core.version>
         <slfj-api.version>1.7.30</slfj-api.version>
         <morphia.version>1.3.2</morphia.version>
     </properties>

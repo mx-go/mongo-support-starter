@@ -1,5 +1,6 @@
 package com.github.mx.mongo.mongo;
 
+import com.alibaba.nacos.common.utils.StringUtils;
 import com.github.mx.nacos.config.core.ConfigFactory;
 import com.github.mx.nacos.config.core.RemoteConfig;
 import com.github.mx.nacos.config.core.api.IConfig;
@@ -10,7 +11,6 @@ import com.google.common.collect.Maps;
 import com.google.common.reflect.Reflection;
 import com.google.common.util.concurrent.Uninterruptibles;
 import com.mongodb.*;
-import org.apache.commons.lang3.StringUtils;
 import org.mongodb.morphia.Datastore;
 import org.mongodb.morphia.Morphia;
 import org.mongodb.morphia.mapping.Mapper;
@@ -64,7 +64,7 @@ public class MongoDataStoreFactoryBean implements InitializingBean, DisposableBe
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        groupId = StringUtils.defaultString(groupId, ConfigFactory.getApplicationName());
+        groupId = StringUtils.defaultIfEmpty(groupId, ConfigFactory.getApplicationName());
         ConfigFactory.getInstance().registerListener(dataId, groupId, c -> {
             this.config = RemoteConfig.convert(c);
             loadConfig(config);
